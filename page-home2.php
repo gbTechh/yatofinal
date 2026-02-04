@@ -8,11 +8,11 @@ get_header();
 
 <header class="header flex gap-0">
   <?php
-  if (have_posts()) :
-    while (have_posts()) :
+  if (have_posts()):
+    while (have_posts()):
       the_post();
       $header_data = get_field('header');
-  ?>
+      ?>
       <div class="w-2/5 h-full">
         <div class="w-full h-full overflow-hidden">
           <?php
@@ -31,11 +31,12 @@ get_header();
           <div class="flex-grow-[5] w-[200px]"></div>
           <div class="flex-grow-[3] pl-52 pr-20">
             <p class=" text-2xl lg:pt-10 z-20 relative"><?= $header_data['paragraph'] ?></p>
-            <a class="mt-5 w-full z-20 block uppercase text-bg-secondary font-bold no-underline" href="<?= $header_data['link'][0]->guid ?>">Ver nuestro catálogo</a>
+            <a class="mt-5 w-full z-20 block uppercase text-bg-secondary font-bold no-underline"
+              href="<?= $header_data['link'][0]->guid ?>">Ver nuestro catálogo</a>
           </div>
         </div>
       </div>
-  <?php
+      <?php
     endwhile;
   endif;
   ?>
@@ -43,11 +44,11 @@ get_header();
 
 <header class="header-movil">
   <?php
-  if (have_posts()) :
-    while (have_posts()) :
+  if (have_posts()):
+    while (have_posts()):
       the_post();
       $header_data = get_field('header');
-  ?>
+      ?>
       <div class="w-full aspect-square relative">
         <?php
         foreach ($header_data['gallery'] as $value) { ?>
@@ -61,23 +62,24 @@ get_header();
       <div class=" pl-8 w-full h-auto flex flex-nowrap ">
         <div class="w-full flex items-center flex-col justify-center py-6">
           <p class="text-base sm:text-lg w-full flex-1 flex items-center pr-4"><?= $header_data['paragraph'] ?></p>
-          <a class="w-full flex-1 z-20 uppercase flex items-center text-bg-secondary font-bold no-underline" href="<?= $header_data['link'][0]->guid ?>">Ver nuestro catálogo</a>
+          <a class="w-full flex-1 z-20 uppercase flex items-center text-bg-secondary font-bold no-underline"
+            href="<?= $header_data['link'][0]->guid ?>">Ver nuestro catálogo</a>
 
         </div>
         <span class="bg-bg-primary aspect-square w-24"></span>
       </div>
-  <?php
+      <?php
     endwhile;
   endif;
   ?>
 </header>
 <?php
-if (have_posts()) :
-  while (have_posts()) :
+if (have_posts()):
+  while (have_posts()):
     the_post();
     $services_data = get_field('services');
     $ambiental = get_field('responsabilidad_ambiental');
-?>
+    ?>
     <main class=" pb-20 hd:pb-32">
       <section class="px-5 py-14 hd:p-20 flex flex-col hd:flex-row  flex-nowrap gap-20">
         <div class="flex-[2] flex flex-col gap-8">
@@ -103,15 +105,16 @@ if (have_posts()) :
 
               $servicios = new WP_Query($args);
 
-              if ($servicios->have_posts()) :
-                while ($servicios->have_posts()) : $servicios->the_post(); ?>
+              if ($servicios->have_posts()):
+                while ($servicios->have_posts()):
+                  $servicios->the_post(); ?>
                   <div class="swiper-slide">
                     <div class="service-card bg-white relative flex flex-col gap-4">
                       <a href="<?php the_permalink(); ?>"
                         class="title link !text-4xl !text-bg-primary uppercase !font-black mb-6">
                         <?php the_title(); ?>
                       </a>
-                      <?php if (has_post_thumbnail()) : ?>
+                      <?php if (has_post_thumbnail()): ?>
                         <div class="relative min-h-[400px]  p-8">
                           <?php the_post_thumbnail('medium', array(
                             'class' => 'w-full h-full  object-contain  z-10'
@@ -124,7 +127,7 @@ if (have_posts()) :
 
                     </div>
                   </div>
-              <?php endwhile;
+                <?php endwhile;
               endif;
               wp_reset_postdata();
               ?>
@@ -139,8 +142,10 @@ if (have_posts()) :
             <!-- Navegación personalizada -->
             <div class="flex justify-end mt-8 gap-4 pr-20 pb-20">
               <h1 class="title w-full text-left">Categoríass</h1>
-              <button class="swiper-button-prev !static !w-12 !h-12 bg-bg-secondary !text-white after:!text-lg hover:!text-bg-secondary"></button>
-              <button class="swiper-button-next !static !w-12 !h-12 bg-bg-secondary !text-white after:!text-lg hover:!text-bg-secondary"></button>
+              <button
+                class="swiper-button-prev !static !w-12 !h-12 bg-bg-secondary !text-white after:!text-lg hover:!text-bg-secondary"></button>
+              <button
+                class="swiper-button-next !static !w-12 !h-12 bg-bg-secondary !text-white after:!text-lg hover:!text-bg-secondary"></button>
             </div>
             <div class="swiper-wrapper">
               <?php
@@ -150,28 +155,29 @@ if (have_posts()) :
               );
               $categories = get_terms($args);
 
-              if (!empty($categories)) :
-                foreach ($categories as $category) :
+              if (!empty($categories)):
+                foreach ($categories as $category):
                   $imagen = get_field('imagen', 'term_' . $category->term_id);
-              ?>
+                  ?>
                   <div class="swiper-slide">
                     <a href="<?php echo get_term_link($category); ?>" class="block link"> <!-- Agregamos el enlace aquí -->
-                      <div class="animation-card-bg-slider bg-white flex flex-col h-full relative shadow-card p-8 cursor-pointer"> <!-- Agregamos cursor-pointer -->
+                      <div
+                        class="animation-card-bg-slider bg-white flex flex-col h-full relative shadow-card p-8 cursor-pointer">
+                        <!-- Agregamos cursor-pointer -->
                         <h3 class="z-10 text-bg-primary font-black text-2xl uppercase mb-8">
                           <?php echo esc_html($category->name); ?>
                         </h3>
 
-                        <?php if ($imagen) : ?>
+                        <?php if ($imagen): ?>
                           <div class="flex-1 flex items-center justify-center min-h-[300px]">
-                            <img src="<?php echo esc_url($imagen['url']); ?>"
-                              alt="<?php echo esc_attr($category->name); ?>"
+                            <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php echo esc_attr($category->name); ?>"
                               class="w-3/4 shadow-img-black max-h-[300px] object-contain absolute bottom-10 -right-2 block z-10">
                           </div>
                         <?php endif; ?>
                       </div>
                     </a>
                   </div>
-              <?php
+                  <?php
                 endforeach;
               endif;
               ?>
@@ -196,7 +202,7 @@ if (have_posts()) :
 
       </section>
     </main>
-<?php endwhile;
+  <?php endwhile;
 endif;
 ?>
 

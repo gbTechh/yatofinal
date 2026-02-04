@@ -5,7 +5,8 @@ Template Name: Proceso de Fabricación
 
 get_header();
 
-$fabrication_steps = get_field('fabrication_steps'); // Campo ACF Repeater con subcampos: step_number, title, description, video
+$fabrication_steps = get_field('fabrication_steps'); // Campo ACF Repeater con subcampos: step_number, title, description
+$main_video = get_field('video'); // Video único que se mostrará fijo
 $link = get_field('link');
 $text = get_field('texto');
 $banner = get_field('banner');
@@ -35,7 +36,7 @@ if (have_posts()) :
           <div class="absolute inset-0" style="
           clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
           background: linear-gradient(90deg, 
-              rgba(0,0,0,0.05) 0%, 
+              rgba(0,100,0,0.05) 0%, 
               rgba(0,0,0,0.02) 30%, 
               transparent 100%);
           transform: translateX(-100px);
@@ -45,7 +46,7 @@ if (have_posts()) :
           <div class="absolute inset-0" style="
           clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
           background: linear-gradient(90deg, 
-              rgba(0,0,0,0.08) 0%, 
+              rgba(0,100,0,0.08) 0%, 
               rgba(0,0,0,0.04) 30%, 
               transparent 100%);
           transform: translateX(-70px);
@@ -55,7 +56,7 @@ if (have_posts()) :
           <div class="absolute inset-0" style="
           clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
           background: linear-gradient(90deg, 
-              rgba(0,0,0,0.12) 0%, 
+              rgba(0,100,0,0.12) 0%, 
               rgba(0,0,0,0.06) 30%, 
               transparent 100%);
           transform: translateX(-40px);
@@ -101,131 +102,116 @@ if (have_posts()) :
         <div class="text-center mb-16">
           <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
             Descubre nuestra calidad<br>
-            en<span class="bg-bg-primary text-white px-3 py-1 rounded mx-3">la fabricación</span>
+            en<span class="bg-bg-primary text-white !text-[25px] px-3 py-1 rounded mx-3">la fabricación</span>
           </h2>
           <p class="text-gray-600 max-w-md mx-auto text-lg">
             Donec pulvinar tincidunt tortor sit amet facilisis. Nam id neque nunc. Aenean posuere elit ultricies sem iaculis elementum.
           </p>
         </div>
 
-        <!-- Timeline Container -->
-        <div class="timeline-container relative">
-          <!-- Línea vertical central -->
-          <div class="timeline-line absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-200 h-full">
-            <div class="timeline-progress absolute top-0 left-0 w-full bg-bg-secondary transition-all duration-300 ease-out" style="height: 0%;"></div>
-          </div>
+        <!-- Container principal con dos columnas -->
+        <div class="flex flex-col lg:flex-row gap-8">
 
-          <?php if (!empty($fabrication_steps) && is_array($fabrication_steps)) : ?>
-            <?php foreach ($fabrication_steps as $index => $step) : ?>
-              <div class="timeline-step relative mb-32 last:mb-0" data-step="<?php echo $index + 1; ?>">
-                <!-- Punto en la línea central -->
-                <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-4 border-gray-200 rounded-full z-10 transition-all duration-300">
-                  <div class="dot-inner w-full h-full bg-bg-secondary rounded-full scale-0 transition-transform duration-300"></div>
-                </div>
+          <!-- Columna izquierda: Pasos con timeline -->
+          <div class="lg:w-1/2 relative">
+            <!-- Timeline Container -->
+            <div class="timeline-container relative">
+              <!-- Línea vertical izquierda -->
+              <div class="timeline-line absolute left-8 transform w-1 bg-gray-200 h-full">
+                <div class="timeline-progress absolute top-0 left-0 w-full bg-bg-secondary transition-all duration-300 ease-out" style="height: 0%;"></div>
+              </div>
 
-                <!-- Contenido del paso -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                  <?php if ($index % 2 == 0) : // Pasos pares: texto izquierda, video derecha 
-                  ?>
-                    <!-- Contenido de texto -->
-                    <div class="lg:pr-16 text-left opacity-0 transform translate-x-[-50px] transition-all duration-700" data-animate="fadeInLeft">
-                      <div class="flex items-center gap-2">
-                        <div class="bg-bg-primarydark text-white text-4xl font-bold px-4 py-2 w-16 rounded-full aspect-square mb-6 flex items-center justify-center">
-                          <?php echo sprintf('%02d', $step['step_number'] ?: $index + 1); ?>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white bg-bg-primarydark inline-block px-4 py-2 rounded mb-4">
-                          <?php echo esc_html($step['title']); ?>
-                        </h3>
-                      </div>
-                      <p class="text-gray-600 leading-relaxed text-lg">
-                        <?php echo esc_html($step['description']); ?>
-                      </p>
+              <?php if (!empty($fabrication_steps) && is_array($fabrication_steps)) : ?>
+                <?php foreach ($fabrication_steps as $index => $step) : ?>
+                  <div class="timeline-step relative mb-20 last:mb-0 pl-16" data-step="<?php echo $index + 1; ?>">
+                    <!-- Punto en la línea -->
+                    <div class="timeline-dot absolute left-8 transform -translate-x-1/2 w-6 h-6 bg-white border-4 border-gray-200 rounded-full z-10 transition-all duration-300">
+                      <div class="dot-inner w-full h-full bg-bg-secondary rounded-full scale-0 transition-transform duration-300"></div>
                     </div>
 
-                    <!-- Video -->
-                    <div class="lg:pl-16 opacity-0 transform translate-x-[50px] transition-all duration-700 delay-200" data-animate="fadeInRight">
-                      <?php if (!empty($step['video'])) : ?>
-                        <div class="relative rounded-lg overflow-hidden shadow-xl bg-gray-900 aspect-video">
-                          <?php if (is_string($step['video']) && (strpos($step['video'], 'youtube.com') !== false || strpos($step['video'], 'youtu.be') !== false)) : ?>
-                            <!-- YouTube embed -->
-                            <iframe class="w-full h-full" src="<?php echo esc_url($step['video']); ?>" frameborder="0" allowfullscreen></iframe>
-                          <?php elseif (is_array($step['video']) && isset($step['video']['url'])) : ?>
-                            <!-- Video subido -->
-                            <video class="w-full h-full object-cover" controls>
-                              <source src="<?php echo esc_url($step['video']['url']); ?>" type="video/mp4">
-                              Tu navegador no soporta el elemento de video.
-                            </video>
-                          <?php else : ?>
-                            <!-- Placeholder si no hay video -->
-                            <div class="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
-                              <div class="text-white text-center">
-                                <div class="w-16 h-16 mx-auto mb-4 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M8 5v10l7-5-7-5z" />
-                                  </svg>
-                                </div>
-                                <p class="font-medium">Video en proceso</p>
-                              </div>
-                            </div>
-                          <?php endif; ?>
-                        </div>
-                      <?php endif; ?>
-                    </div>
-                  <?php else : // Pasos impares: video izquierda, texto derecha 
-                  ?>
-                    <!-- Video -->
-                    <div class="lg:pr-16 opacity-0 transform translate-x-[-50px] transition-all duration-700" data-animate="fadeInLeft">
-                      <?php if (!empty($step['video'])) : ?>
-                        <div class="relative rounded-lg overflow-hidden shadow-xl bg-gray-900 aspect-video">
-                          <?php if (is_string($step['video']) && (strpos($step['video'], 'youtube.com') !== false || strpos($step['video'], 'youtu.be') !== false)) : ?>
-                            <!-- YouTube embed -->
-                            <iframe class="w-full h-full" src="<?php echo esc_url($step['video']); ?>" frameborder="0" allowfullscreen></iframe>
-                          <?php elseif (is_array($step['video']) && isset($step['video']['url'])) : ?>
-                            <!-- Video subido -->
-                            <video class="w-full h-full object-cover" controls>
-                              <source src="<?php echo esc_url($step['video']['url']); ?>" type="video/mp4">
-                              Tu navegador no soporta el elemento de video.
-                            </video>
-                          <?php else : ?>
-                            <!-- Placeholder si no hay video -->
-                            <div class="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
-                              <div class="text-white text-center">
-                                <div class="w-16 h-16 mx-auto mb-4 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M8 5v10l7-5-7-5z" />
-                                  </svg>
-                                </div>
-                                <p class="font-medium">Video en proceso</p>
-                              </div>
-                            </div>
-                          <?php endif; ?>
-                        </div>
-                      <?php endif; ?>
-                    </div>
-
-                    <!-- Contenido de texto -->
-                    <div class="lg:pl-16 text-left opacity-0 transform translate-x-[50px] transition-all duration-700 delay-200" data-animate="fadeInRight">
-                      <div class="flex items-center gap-2 mb-4">
-                        <div class="bg-bg-primarydark text-white  text-4xl font-bold px-4 py-2 w-16 rounded-full aspect-square flex items-center justify-center">
+                    <!-- Contenido del paso -->
+                    <div class="text-left opacity-0 transform translate-x-[-20px] transition-all duration-700" data-animate="fadeInLeft">
+                      <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-bg-primarydark text-white text-3xl font-bold px-4 py-2 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
                           <?php echo sprintf('%02d', $step['step_number'] ?: $index + 1); ?>
                         </div>
                         <h3 class="text-2xl font-bold text-white bg-bg-primarydark inline-block px-4 py-2 rounded">
                           <?php echo esc_html($step['title']); ?>
                         </h3>
                       </div>
-                      <p class="text-gray-600 leading-relaxed text-lg">
+                      <p class="text-gray-600 leading-relaxed text-lg pl-2">
                         <?php echo esc_html($step['description']); ?>
                       </p>
                     </div>
+                  </div>
+                <?php endforeach; ?>
+              <?php else : ?>
+                <div class="text-center py-16">
+                  <p class="text-gray-600 text-xl">No se han definido pasos para el proceso de fabricación.</p>
+                </div>
+              <?php endif; ?>
+            </div>
+          </div>
+
+          <!-- Columna derecha: Video fijo -->
+          <div class="lg:w-1/2">
+            <div class="sticky-video-container">
+              <div class="bg-gray-50 rounded-xl p-6 shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Video del proceso</h3>
+
+                <!-- Video fijo -->
+                <div class="relative rounded-lg overflow-hidden shadow-xl bg-gray-900 aspect-video">
+                  <?php if (!empty($main_video)) : ?>
+                    <?php if (is_string($main_video) && (strpos($main_video, 'youtube.com') !== false || strpos($main_video, 'youtu.be') !== false)) : ?>
+                      <!-- YouTube embed -->
+                      <iframe
+                        class="w-full h-full"
+                        src="<?php echo esc_url($main_video); ?>"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                      </iframe>
+                    <?php elseif (is_array($main_video) && isset($main_video['url'])) : ?>
+                      <!-- Video subido -->
+                      <video class="w-full h-full object-cover" controls poster="<?php echo !empty($main_video['thumbnail']) ? esc_url($main_video['thumbnail']) : ''; ?>">
+                        <source src="<?php echo esc_url($main_video['url']); ?>" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                      </video>
+                    <?php else : ?>
+                      <!-- Si es una URL de video directa -->
+                      <video class="w-full h-full object-cover" controls>
+                        <source src="<?php echo esc_url($main_video); ?>" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                      </video>
+                    <?php endif; ?>
+                  <?php else : ?>
+                    <!-- Placeholder si no hay video -->
+                    <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                      <div class="text-white text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-white bg-opacity-10 rounded-full flex items-center justify-center">
+                          <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Descripción del video -->
+                <div class="mt-6 text-center">
+                  <p class="text-gray-600">
+                    Observa nuestro proceso completo de fabricación en este video explicativo.
+                  </p>
+                  <?php if (!empty($main_video_description)) : ?>
+                    <p class="text-gray-500 text-sm mt-2">
+                      <?php echo esc_html($main_video_description); ?>
+                    </p>
                   <?php endif; ?>
                 </div>
               </div>
-            <?php endforeach; ?>
-          <?php else : ?>
-            <div class="text-center py-16">
-              <p class="text-gray-600 text-xl">No se han definido pasos para el proceso de fabricación.</p>
             </div>
-          <?php endif; ?>
+          </div>
         </div>
 
         <!-- CTA Button -->
@@ -271,8 +257,8 @@ if (have_posts()) :
             }
           });
         }, {
-          threshold: 0.5,
-          rootMargin: '-100px 0px'
+          threshold: 0.3,
+          rootMargin: '-50px 0px'
         });
 
         // Observar cada paso
@@ -283,6 +269,8 @@ if (have_posts()) :
         // Actualizar progreso de la línea al hacer scroll
         function updateTimelineProgress() {
           const container = document.querySelector('.timeline-container');
+          if (!container) return;
+
           const containerRect = container.getBoundingClientRect();
           const containerTop = containerRect.top + window.pageYOffset;
           const containerHeight = container.offsetHeight;
@@ -314,7 +302,16 @@ if (have_posts()) :
       }
 
       .timeline-dot.border-bg-secondary {
-        border-color: #f9c91a;
+        border-color: #40853C;
+      }
+
+      /* SOLUCIÓN SIMPLE PARA VIDEO STICKY CON CSS PURO */
+      @media (min-width: 1024px) {
+        .sticky-video-container {
+          position: sticky;
+          top: 2rem;
+          align-self: flex-start;
+        }
       }
 
       /* Responsive adjustments */
@@ -327,15 +324,12 @@ if (have_posts()) :
           left: 2rem;
         }
 
-        .timeline-step .grid {
-          grid-template-columns: 1fr;
-          margin-left: 5rem;
+        .timeline-step {
+          padding-left: 4rem;
         }
 
-        .lg\:pr-16,
-        .lg\:pl-16 {
-          padding-left: 0;
-          padding-right: 0;
+        .sticky-video-container {
+          margin-top: 2rem;
         }
       }
     </style>
@@ -344,4 +338,4 @@ if (have_posts()) :
 endif;
 ?>
 
-<?php get_footer();
+<?php get_footer(); ?>

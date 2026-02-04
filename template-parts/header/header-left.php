@@ -1,18 +1,16 @@
 <div class="w-full flex justify-between items-center bg-white h-24 container">
     <!-- Logo -->
     <div class="logo-container flex-1 flex items-center max-w-[150px] mr-10 justify-center">
-        <?php if (has_custom_logo()): 
+        <?php if (has_custom_logo()):
             $custom_logo_id = get_theme_mod('custom_logo');
             $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
-        ?>
+            ?>
             <a href="<?php echo home_url('/'); ?>" class="w-full block no-underline">
-                <img src="<?php echo esc_url($logo[0]); ?>" 
-                     alt="<?php echo get_bloginfo('name'); ?>" 
-                     class="w-full logo" />
+                <img src="<?php echo esc_url($logo[0]); ?>" alt="<?php echo get_bloginfo('name'); ?>" class="w-full logo" />
             </a>
         <?php else: ?>
             <a href="<?php echo home_url('/'); ?>" class="text-xl w-full no-underline">
-              <span class="font-titillium text-3xl text-texto-primary font-extrabold">YATO</span>
+                <span class="font-titillium text-3xl text-texto-primary font-extrabold">YATO</span>
             </a>
         <?php endif; ?>
     </div>
@@ -26,7 +24,7 @@
 
     <!-- Menú Desktop -->
     <nav id="desktop-menu" class="hidden hd:flex flex-1 paragraph-sm text-black group-hover:text-black">
-        <?php 
+        <?php
         $args = array(
             'theme_location' => 'menu-principal',
             'container' => false, // Eliminamos el contenedor por defecto
@@ -48,7 +46,7 @@
 
     <!-- Contenido del menú mobile -->
     <nav class="flex flex-col items-center justify-center h-full">
-        <?php 
+        <?php
         $args = array(
             'theme_location' => 'menu-principal',
             'container' => false, // Eliminamos el contenedor por defecto
@@ -62,13 +60,13 @@
 <!-- Script para manejar el menú hamburguesa y el menú mobile -->
 <script>
     // Abrir menú mobile
-    document.getElementById('menu-toggle').addEventListener('click', function() {
+    document.getElementById('menu-toggle').addEventListener('click', function  () {
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenu.classList.remove('hidden'); // Mostrar menú mobile
     });
 
     // Cerrar menú mobile
-    document.getElementById('close-menu').addEventListener('click', function() {
+    document.getElementById('close-menu').addEventListener('click', functio n () {
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenu.classList.add('hidden'); // Ocultar menú mobile
     });

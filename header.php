@@ -12,7 +12,8 @@
 </head>
 
 <body class="min-h-screen">
-  <div class="main-header w-full h-auto flex flex-col relative top-0 left-0 z-50 group hover:bg-white/90 transition-all ">
+  <div
+    class="main-header w-full h-auto flex flex-col relative top-0 left-0 z-50 group hover:bg-white/90 transition-all ">
     <?php
     // get_template_part('template-parts/header/header-top');
     ?>
