@@ -507,3 +507,20 @@ function cargar_api_google_maps()
 }
 
 add_action('wp_enqueue_scripts', 'cargar_api_google_maps');
+
+
+//ACF GUARDADO
+add_filter('acf/settings/save_json', 'my_acf_json_save_point');
+function my_acf_json_save_point($path)
+{
+    return get_template_directory() . '/acf-json';
+}
+
+// 2. Dile a ACF de dónde CARGAR los archivos JSON
+add_filter('acf/settings/load_json', 'my_acf_json_load_point');
+function my_acf_json_load_point($paths)
+{
+    unset($paths[0]); // Limpia la ruta por defecto
+    $paths[] = get_template_directory() . '/acf-json';
+    return $paths;
+}
